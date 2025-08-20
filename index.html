@@ -1,86 +1,39 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>会唱歌的衣服</title>
   <style>
-    body {
-      margin: 0;
-      padding: 20px;
-      background: #fff8f0;
-      font-family: "Comic Sans MS", "Chalkboard SE", cursive;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    h1 {
-      font-size: 1.8em;
-      margin-bottom: 20px;
-      color: #ff6f61;
-      text-align: center;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
-      width: 100%;
-      max-width: 400px;
-    }
-    .item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      background: #fff;
-      border-radius: 20px;
-      box-shadow: 2px 2px 8px rgba(0,0,0,0.15);
-      padding: 15px;
-      cursor: pointer;
-      transition: transform 0.2s;
-    }
-    .item:active {
-      transform: scale(0.95);
-    }
-    .item img {
-      width: 80px;
-      height: 80px;
-      object-fit: contain;
-      margin-bottom: 10px;
-    }
-    .item p {
-      margin: 0;
-      font-size: 1.1em;
-      color: #333;
-    }
+    body { margin:0; padding:20px; background:#fff8f0; font-family:"Comic Sans MS", cursive; display:flex; flex-direction:column; align-items:center; }
+    h1 { font-size:1.8em; color:#ff6f61; margin-bottom:20px; }
+    .grid { display:grid; grid-template-columns:repeat(2,1fr); gap:20px; width:100%; max-width:400px; }
+    .item { display:flex; flex-direction:column; align-items:center; background:#fff; border-radius:20px; box-shadow:2px 2px 8px rgba(0,0,0,0.15); padding:15px; cursor:pointer; transition:transform 0.2s; }
+    .item:active { transform:scale(0.95); }
+    .item.playing { border:3px solid #ff7b54; }
+    .item img { width:80px; height:80px; object-fit:contain; margin-bottom:10px; }
+    .item p { margin:0; font-size:1.1em; color:#333; }
   </style>
 </head>
 <body>
-  <h1>🎶 小韩会唱歌的衣服 🎶</h1>
-
+  <h1>🎶 会唱歌的衣服 🎶</h1>
   <div class="grid">
-    <div class="item" onclick="togglePlay('astronaut')">
-      <img src="https://cdn-icons-png.flaticon.com/512/3104/3104900.png" alt="宇航员">
-      <p>宇航员</p>
+    <div class="item" onclick="togglePlay('astronaut', this)">
+      <img src="https://cdn-icons-png.flaticon.com/512/3104/3104900.png" alt="宇航员"><p>宇航员</p>
     </div>
-    <div class="item" onclick="togglePlay('sun')">
-      <img src="https://cdn-icons-png.flaticon.com/512/869/869869.png" alt="小太阳">
-      <p>小太阳</p>
+    <div class="item" onclick="togglePlay('sun', this)">
+      <img src="https://cdn-icons-png.flaticon.com/512/869/869869.png" alt="小太阳"><p>小太阳</p>
     </div>
-    <div class="item" onclick="togglePlay('kitten')">
-      <img src="https://cdn-icons-png.flaticon.com/512/616/616408.png" alt="小猫咪">
-      <p>可爱猫咪</p>
+    <div class="item" onclick="togglePlay('kitten', this)">
+      <img src="https://cdn-icons-png.flaticon.com/512/616/616408.png" alt="小猫咪"><p>可爱猫咪</p>
     </div>
-    <div class="item" onclick="togglePlay('robot')">
-      <img src="https://cdn-icons-png.flaticon.com/512/4712/4712100.png" alt="机器人">
-      <p>机器人</p>
+    <div class="item" onclick="togglePlay('robot', this)">
+      <img src="https://cdn-icons-png.flaticon.com/512/4712/4712100.png" alt="机器人"><p>机器人</p>
     </div>
-    <div class="item" onclick="togglePlay('spaceship')">
-      <img src="https://cdn-icons-png.flaticon.com/512/201/201623.png" alt="宇宙飞船">
-      <p>宇宙飞船</p>
+    <div class="item" onclick="togglePlay('spaceship', this)">
+      <img src="https://cdn-icons-png.flaticon.com/512/201/201623.png" alt="宇宙飞船"><p>宇宙飞船</p>
     </div>
-    <div class="item" onclick="togglePlay('sleep')">
-      <img src="https://cdn-icons-png.flaticon.com/512/747/747376.png" alt="晚安">
-      <p>晚安</p>
+    <div class="item" onclick="togglePlay('sleep', this)">
+      <img src="https://cdn-icons-png.flaticon.com/512/747/747376.png" alt="晚安"><p>晚安</p>
     </div>
   </div>
 
@@ -88,30 +41,43 @@
 
   <script>
     const songs = {
-      astronaut: "https://www.kozco.com/tech/piano2-CoolEdit.mp3",
-      sun: "https://www.kozco.com/tech/LRMonoPhase4.mp3",
-      kitten: "https://www.kozco.com/tech/organfinale.mp3",
-      robot: "https://www.kozco.com/tech/32.mp3",
-      spaceship: "https://www.kozco.com/tech/piano2.wav.mp3",
-      sleep: "https://www.kozco.com/tech/LRMonoPhase4.mp3" // 睡眠音乐替代
+      astronaut: "https://pixabay.com/static/uploads/audio/2015/10/16/audio_6bec643d76.mp3",
+      sun: "https://pixabay.com/static/uploads/audio/2015/07/18/audio_18a9a5fb29.mp3",
+      kitten: "https://pixabay.com/static/uploads/audio/2015/10/07/audio_3d0a90b808.mp3",
+      robot: "https://pixabay.com/static/uploads/audio/2015/10/23/audio_05608bcf13.mp3",
+      spaceship: "https://pixabay.com/static/uploads/audio/2015/09/25/audio_b5acdc2218.mp3",
+      sleep: "https://pixabay.com/static/uploads/audio/2015/09/21/audio_25d0b2d8a3.mp3"
     };
 
-    let currentKey = null;
     const player = document.getElementById('player');
+    let currentKey = null;
+    let currentElem = null;
 
-    function togglePlay(key) {
+    function togglePlay(key, elem) {
+      if (currentElem && currentElem !== elem) currentElem.classList.remove('playing');
       if (currentKey === key) {
         if (player.paused) {
           player.play();
+          elem.classList.add('playing');
         } else {
           player.pause();
+          elem.classList.remove('playing');
         }
       } else {
         currentKey = key;
         player.src = songs[key];
+        player.currentTime = 0;
         player.play();
+        if (currentElem) currentElem.classList.remove('playing');
+        elem.classList.add('playing');
+        currentElem = elem;
       }
     }
+
+    player.addEventListener('ended', () => {
+      if (currentElem) currentElem.classList.remove('playing');
+      currentKey = null;
+    });
   </script>
 </body>
 </html>
