@@ -1,82 +1,102 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>会唱歌的衣服</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>儿童音乐魔法衣服</title>
   <style>
-    body { margin:0; padding:20px; background:#fff8f0; font-family:"Comic Sans MS", cursive; display:flex; flex-direction:column; align-items:center; }
-    h1 { font-size:1.8em; color:#ff6f61; margin-bottom:20px; }
-    .grid { display:grid; grid-template-columns:repeat(2,1fr); gap:20px; width:100%; max-width:400px; }
-    .item { display:flex; flex-direction:column; align-items:center; background:#fff; border-radius:20px; box-shadow:2px 2px 8px rgba(0,0,0,0.15); padding:15px; cursor:pointer; transition:transform 0.2s; }
-    .item:active { transform:scale(0.95); }
-    .item.playing { border:3px solid #ff7b54; }
-    .item img { width:80px; height:80px; object-fit:contain; margin-bottom:10px; }
-    .item p { margin:0; font-size:1.1em; color:#333; }
+    body {
+      font-family: "Comic Sans MS", "幼圆", sans-serif;
+      text-align: center;
+      background: #fff7e6;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      color: #ff6600;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      max-width: 400px;
+      margin: auto;
+    }
+    .btn {
+      background: #ffcc66;
+      border: 2px solid #ff9933;
+      border-radius: 15px;
+      padding: 15px;
+      font-size: 18px;
+      cursor: pointer;
+      box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
+      transition: all 0.2s;
+    }
+    .btn.playing {
+      background: #ff9966;
+      color: #fff;
+    }
   </style>
 </head>
 <body>
-  <h1>🎶 会唱歌的衣服 🎶</h1>
+  <h1>🎵 跟着小韩唱歌 🎵</h1>
+
   <div class="grid">
-    <div class="item" onclick="togglePlay('astronaut', this)">
-      <img src="https://cdn-icons-png.flaticon.com/512/3104/3104900.png" alt="宇航员"><p>宇航员</p>
-    </div>
-    <div class="item" onclick="togglePlay('sun', this)">
-      <img src="https://cdn-icons-png.flaticon.com/512/869/869869.png" alt="小太阳"><p>小太阳</p>
-    </div>
-    <div class="item" onclick="togglePlay('kitten', this)">
-      <img src="https://cdn-icons-png.flaticon.com/512/616/616408.png" alt="小猫咪"><p>可爱猫咪</p>
-    </div>
-    <div class="item" onclick="togglePlay('robot', this)">
-      <img src="https://cdn-icons-png.flaticon.com/512/4712/4712100.png" alt="机器人"><p>机器人</p>
-    </div>
-    <div class="item" onclick="togglePlay('spaceship', this)">
-      <img src="https://cdn-icons-png.flaticon.com/512/201/201623.png" alt="宇宙飞船"><p>宇宙飞船</p>
-    </div>
-    <div class="item" onclick="togglePlay('sleep', this)">
-      <img src="https://cdn-icons-png.flaticon.com/512/747/747376.png" alt="晚安"><p>晚安</p>
-    </div>
+    <button class="btn" data-song="astronaut">🚀 宇航员</button>
+    <button class="btn" data-song="sun">☀️ 小太阳</button>
+    <button class="btn" data-song="cat">🐱 可爱猫咪</button>
+    <button class="btn" data-song="robot">🤖 机器人</button>
+    <button class="btn" data-song="spaceship">🛸 宇宙飞船</button>
+    <button class="btn" data-song="sleep">🌙 晚安</button>
   </div>
 
   <audio id="player"></audio>
 
   <script>
+    const player = document.getElementById("player");
+
+    // 这里替换成你的 GitHub Pages 地址
+    const baseURL = "https://ryanle.github.io/music1/";
+
     const songs = {
-      astronaut: "https://pixabay.com/static/uploads/audio/2015/10/16/audio_6bec643d76.mp3",
-      sun: "https://pixabay.com/static/uploads/audio/2015/07/18/audio_18a9a5fb29.mp3",
-      kitten: "https://pixabay.com/static/uploads/audio/2015/10/07/audio_3d0a90b808.mp3",
-      robot: "https://pixabay.com/static/uploads/audio/2015/10/23/audio_05608bcf13.mp3",
-      spaceship: "https://pixabay.com/static/uploads/audio/2015/09/25/audio_b5acdc2218.mp3",
-      sleep: "https://pixabay.com/static/uploads/audio/2015/09/21/audio_25d0b2d8a3.mp3"
+      astronaut: baseURL + "1.mp3",
+      sun: baseURL + "1.mp3",
+      cat: baseURL + "1.mp3",
+      robot: baseURL + "spaceman.mp3",
+      spaceship: baseURL + "spaceman.mp3",
+      sleep: baseURL + "spaceman.mp3"
     };
 
-    const player = document.getElementById('player');
-    let currentKey = null;
-    let currentElem = null;
+    let currentBtn = null;
 
-    function togglePlay(key, elem) {
-      if (currentElem && currentElem !== elem) currentElem.classList.remove('playing');
-      if (currentKey === key) {
-        if (player.paused) {
-          player.play();
-          elem.classList.add('playing');
-        } else {
+    document.querySelectorAll(".btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const song = songs[btn.dataset.song];
+
+        if (currentBtn === btn && !player.paused) {
+          // 暂停
           player.pause();
-          elem.classList.remove('playing');
+          btn.classList.remove("playing");
+        } else if (currentBtn === btn && player.paused) {
+          // 继续播放
+          player.play();
+          btn.classList.add("playing");
+        } else {
+          // 切换歌曲
+          if (currentBtn) currentBtn.classList.remove("playing");
+          player.src = song;
+          player.currentTime = 0;
+          player.play();
+          btn.classList.add("playing");
+          currentBtn = btn;
         }
-      } else {
-        currentKey = key;
-        player.src = songs[key];
-        player.currentTime = 0;
-        player.play();
-        if (currentElem) currentElem.classList.remove('playing');
-        elem.classList.add('playing');
-        currentElem = elem;
-      }
-    }
+      });
+    });
 
-    player.addEventListener('ended', () => {
-      if (currentElem) currentElem.classList.remove('playing');
-      currentKey = null;
+    player.addEventListener("ended", () => {
+      if (currentBtn) currentBtn.classList.remove("playing");
     });
   </script>
 </body>
